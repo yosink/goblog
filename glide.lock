@@ -1,0 +1,29 @@
+hash: b5356a83edcdac65948e73cf88463ca173e4516423e5d02b4ddca1308ed67dd9
+updated: 2018-12-06T09:28:36.13220815+08:00
+imports:
+- name: github.com/go-sql-driver/mysql
+  version: 72cd26f257d44c1114970e19afddcd812016007e
+- name: github.com/jinzhu/gorm
+  version: 472c70caa40267cb89fd8facb07fe6454b578626
+- name: github.com/jinzhu/inflection
+  version: 04140366298a54a039076d798123ffa108fff46c
+- name: github.com/lib/pq
+  version: 4ded0e9383f75c197b3a2aaa6d590ac52df6fd79
+  subpackages:
+  - hstore
+- name: github.com/mattn/go-sqlite3
+  version: c7c4067b79cc51e6dfdcef5c702e74b1e0fa7c75
+- name: google.golang.org/appengine
+  version: a37df1387b4521194676d88c79230c613610d5f4
+  repo: https://github.com/golang/appengine
+  vcs: git
+  subpackages:
+  - cloudsql
+  - cloudsql
+testImports:
+- name: github.com/erikstmartin/go-testdb
+  version: 8d10e4a1bae52cd8b81ffdec3445890d6dccab3d
+- name: github.com/gofrs/uuid
+  version: 7077aa61129615a0d7f45c49101cd011ab221c27
+- name: github.com/jinzhu/now
+  version: 8ec929ed50c3ac25ce77ba4486e1f277c552c591

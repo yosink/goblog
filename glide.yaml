@@ -1,0 +1,23 @@
+package: hello
+import:
+- package: github.com/go-sql-driver/mysql
+  version: ~1.4.1
+- package: github.com/jinzhu/gorm
+  version: ~1.9.2
+- package: github.com/jinzhu/inflection
+- package: github.com/lib/pq
+  version: ~1.0.0
+  subpackages:
+  - hstore
+- package: github.com/mattn/go-sqlite3
+  version: ~1.10.0
+- package: google.golang.org/appengine/cloudsql
+  repo: https://github.com/golang/appengine
+  vcs: git
+  subpackages:
+  - cloudsql
+testImport:
+- package: github.com/erikstmartin/go-testdb
+- package: github.com/gofrs/uuid
+  version: ~3.1.2
+- package: github.com/jinzhu/now
