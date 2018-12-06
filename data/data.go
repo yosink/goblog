@@ -1,7 +1,9 @@
 package data
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"time"
 
@@ -10,7 +12,7 @@ import (
 )
 
 const (
-	connectStr       = "root:root@(127.0.0.1)/default?charset=utf8&parseTime=True&loc=Local"
+	//connectStr       = "root:root@(127.0.0.1)/blog?charset=utf8&parseTime=True&loc=Local"
 	TIME_FORMAT_TIME = "2006-01-02 15:04:05"
 	TIME_FORMAT_DATE = "2006-01-02"
 )
@@ -18,6 +20,15 @@ const (
 var (
 	DB *gorm.DB
 )
+
+type DBConfig struct {
+	User string	`json:"db_user"`
+	Pass string	`json:"db_pass"`
+	Addr string `json:"db_addr"`
+	Port int `json:"db_port"`
+	Name string `json:"db_name"`
+	Args string `json:"connect_args"`
+}
 
 type LocalTime time.Time
 
@@ -35,12 +46,35 @@ func (l LocalDate) MarshalJSON() ([]byte, error) {
 }
 
 func init() {
+	v := DBConfig{}
+	err1 := LoadConf("./db.json",&v)
+	if err1 != nil {
+		log.Fatal(err1)
+	}
+	//fmt.Printf("%#v",v)
+	str := GenerateConnectStr(v)
 	var err error
-	DB, err = gorm.Open("mysql", connectStr)
+	DB, err = gorm.Open("mysql", str)
 	if err != nil {
 		log.Fatal(err)
 	}
 	gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
 		return "go_" + defaultTableName
 	}
+}
+
+func LoadConf(fi string,v interface{}) error {
+	data,err := ioutil.ReadFile(fi)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(data,v)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GenerateConnectStr(c DBConfig) string {
+	return fmt.Sprint(c.User ,":", c.Pass , "@(",c.Addr , ":",c.Port , ")/" + c.Name + "?"+c.Args)
 }
