@@ -1,8 +1,0 @@
-{
-  "db_user": "root",
-  "db_pass": "root",
-  "db_addr": "127.0.0.1",
-  "db_port": 3306,
-  "db_name": "default",
-  "connect_args": "charset=utf8&parseTime=True&loc=Local"
-}

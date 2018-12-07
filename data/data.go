@@ -1,10 +1,12 @@
 package data
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"strconv"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -53,6 +55,7 @@ func init() {
 	}
 	//fmt.Printf("%#v",v)
 	str := GenerateConnectStr(v)
+	fmt.Println(str)
 	var err error
 	DB, err = gorm.Open("mysql", str)
 	if err != nil {
@@ -76,5 +79,18 @@ func LoadConf(fi string,v interface{}) error {
 }
 
 func GenerateConnectStr(c DBConfig) string {
-	return fmt.Sprint(c.User ,":", c.Pass , "@(",c.Addr , ":",c.Port , ")/" + c.Name + "?"+c.Args)
+	var bufer bytes.Buffer
+	bufer.WriteString(c.User)
+	bufer.WriteString(":")
+	bufer.WriteString(c.Pass)
+	bufer.WriteString("@(")
+	bufer.WriteString(c.Addr)
+	bufer.WriteString(":")
+	bufer.WriteString(strconv.Itoa(c.Port))
+	bufer.WriteString(")/")
+	bufer.WriteString(c.Name)
+	bufer.WriteString("?")
+	bufer.WriteString(c.Args)
+	return bufer.String()
+	//return fmt.Sprint(c.User ,":", c.Pass , "@(",c.Addr , ":",c.Port , ")/" + c.Name + "?"+c.Args)
 }
