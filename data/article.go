@@ -23,3 +23,11 @@ func GetArticleByID(id int) (art Article, err error) {
 	err = DB.First(&art, id).Error
 	return
 }
+func GetArticleList() (arts []Article, err error) {
+	defer DB.Close()
+	where := Article{IsDraft: false}
+	limit := 10
+	order := "created_at desc"
+	DB.Order(order).Limit(limit).Find(&arts, where)
+	return arts, nil
+}

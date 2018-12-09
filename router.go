@@ -2,12 +2,20 @@ package main
 
 import (
 	"fmt"
+	"goblog/data"
+	"html/template"
 	"net/http"
 )
 
-func index(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.URL)
-	fmt.Println(r.UserAgent())
+var templateDir = "./templates/"
 
-	fmt.Fprint(w, "blog index")
+func index(w http.ResponseWriter, r *http.Request) {
+	arts, err := data.GetArticleList()
+	//fmt.Printf("%#v", arts)
+	////os.Exit(1)
+	if err != nil {
+		fmt.Fprint(w, "get article list error")
+	}
+	t := template.Must(template.ParseFiles(templateDir + "index.html"))
+	t.Execute(w, &arts)
 }
